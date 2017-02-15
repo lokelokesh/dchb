@@ -1,0 +1,44 @@
+<div class="container bottom-pd">
+  <div class="row">
+  <div id="confirm_plan" class="col-lg-7 col-md-7 col-sm-8 col-xs-12">
+    <h1 class="darkblue">Confirm Your Plan Selection</h1>
+    <% if @terminate.present? %>
+      <p>Click Terminate Plan button to complete your termination from coverage.</p>
+      <p>You will remain enrolled in coverage until you terminate your plan selection below.</p>
+    <% else %>
+      <p>Your current plan selection is displayed below. Click the back button if you want to change your selection. Click Purchase button to complete your enrollment.</p>
+      <p>Your enrollment is not complete until you purchase your plan selection below.</p>
+    <% end %>
+    <p>
+      <% if @enrollment.employer_profile.present? %>
+        <strong><%= @enrollment.employer_profile.legal_name %></strong><br>
+      <% end %>
+      <strong><%= @plan.name %></strong><br>
+      Starting on : <%= @enrollment.effective_on.strftime("%m/%d/%Y") %>
+    </p>
+
+    <br>
+
+    <% if @enrollment.employee_role.present? %>
+      <%= render "insured/plan_shoppings/coverage_information" %>
+    <% else %>
+      <%= render "insured/plan_shoppings/individual_coverage_information" %>
+    <% end %>
+    <br />
+
+    <% if @terminate.present? %>
+      <%= link_to("Terminate Plan", terminate_insured_plan_shopping_path(id: @enrollment.id, terminate_reason: @terminate_reason), {:class => "btn btn-primary pull-right", :method => :post}) %>
+    <% else %>
+      <%= link_to purchase_or_confirm, checkout_insured_plan_shopping_path(@enrollment.id, :plan_id => @plan.id, change_plan: @change_plan), class: 'btn btn-primary pull-right', method: :post %>
+    <% end %>
+  </div>
+
+  <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 col-md-offset-2 col-sm-offset-1 right-section">
+    <% if @change_plan == "change_by_qle" %>
+      <%= render partial: 'shared/qle_progress', locals: {step: '3', no_purchase: true} %>
+    <% elsif @change_plan == "change_plan" %>
+      <%= render partial: 'shared/shop_for_plans_progress', locals: {step: '2', no_purchase: true} %>
+    <% end %>
+  </div>
+  </div>
+</div>

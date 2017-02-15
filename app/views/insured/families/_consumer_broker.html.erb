@@ -1,0 +1,46 @@
+<div class="panel panel-default module broker consumer-broker">
+  <div class="panel-heading vertically-aligned-row">
+    <div>
+      <h3 class="panel-title">
+        <%= title.present? ? title : "Your Broker" %>
+      </h3>
+    </div>
+    <div class="text-right">
+      <%= link_to "Delete Broker &nbsp;<i class='fa fa-user-times' aria-hidden='true'></i>".html_safe, delete_consumer_broker_insured_family_path(@family) , method: :delete , data: { confirm: "Are you sure you want to delete?" }, class: 'btn btn-default'+pundit_class(Family,:updateable?) %>
+    </div>
+  </div>
+  <div class="panel-body">
+    <div class="vertically-aligned-row">
+      <div>
+        <strong>
+          Broker Name:
+        </strong>
+        <span>
+          <%= @person.primary_family.current_broker_agency.broker_agency_profile.legal_name.capitalize %>
+        </span>
+      </div>
+    </div>
+    <div class="vertically-aligned-row">
+      <% if @person.primary_family.current_broker_agency.writing_agent.phone.present? %>
+        <div>
+          <strong>
+            Phone Number:
+          </strong>
+          <span>
+            <%= @person.primary_family.current_broker_agency.writing_agent.phone %>
+          </span>
+        </div>
+      <% end %>
+      <% if @person.primary_family.current_broker_agency.writing_agent.email.address.present? %>
+        <div>
+          <strong>
+            Email Address:
+          </strong>
+          <span>
+            <%= @person.primary_family.current_broker_agency.writing_agent.email.address %>
+          </span>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
